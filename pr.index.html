@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shuji Azumada | Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- デザイン設定 --- */
+        :root {
+            --primary: #2563eb; /* ← 鮮やかなテックブルーに変更 */
+            --accent: #f59e0b;  /* ← 元気なオレンジに変更 */
+            --text: #111827;
+            --bg: #fdfdfd;
+            --white: #ffffff;
+            --gray: #f3f4f6;
+        }
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text);
+            background-color: var(--bg);
+            line-height: 1.8;
+            letter-spacing: 0.05em;
+        }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; padding: 0; }
+        
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+        section { padding: 80px 0; }
+        h1, h2, h3 { font-weight: 700; line-height: 1.4; }
+        
+        /* --- ヘッダー --- */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 10px rgba(0,0,0,0.05);
+        }
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .logo { font-size: 1.4rem; font-weight: bold; color: var(--primary); letter-spacing: 0.1em; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { font-size: 0.9rem; font-weight: 500; }
+        .nav-links a:hover { color: var(--accent); }
+
+        /* --- ヒーローエリア --- */
+        .hero {
+            height: 90vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            /* 背景にうっすら回路図っぽい模様を入れるイメージ */
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0.5;
+        }
+        .hero-content {
+            max-width: 800px;
+            z-index: 1;
+        }
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+        .hero-desc {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+        .btn-primary {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--white);
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: bold;
+        }
+        .btn-primary:hover { background-color: #b08d55; transform: translateY(-2px); }
+
+        /* --- About --- */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        .profile-text h3 { color: var(--primary); margin-bottom: 20px; }
+        .history-item {
+            border-left: 3px solid var(--accent);
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+        .history-year { font-weight: bold; color: var(--primary); }
+        .skill-tags span {
+            display: inline-block;
+            background: #eef2f6;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 0 5px 5px 0;
+            color: #555;
+        }
+
+        /* --- Research --- */
+        .research-box {
+            background: var(--white);
+            border: 1px solid #eee;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            margin-top: 30px;
+        }
+        .research-kw {
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* --- Activities (SNS & Football) --- */
+        .activity-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column; /* スマホ向けデフォルト */
+        }
+        .activity-content { padding: 30px; flex: 1; }
+        .activity-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        /* SNSのストーリーを目立たせる */
+        .story-box {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 0.95rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        /* --- Career / Vision --- */
+        .vision-section {
+            background-color: var(--primary);
+            color: var(--white);
+            text-align: center;
+        }
+        .vision-title { font-size: 2rem; margin-bottom: 30px; }
+        .vision-text { max-width: 700px; margin: 0 auto; font-size: 1.1rem; }
+
+        /* --- Footer --- */
+        footer { background: #111; color: #888; padding: 40px 0; text-align: center; }
+        .footer-links { margin-bottom: 20px; }
+        .footer-links a { color: var(--white); margin: 0 15px; font-size: 1.2rem; }
+
+        /* --- レスポンシブ --- */
+        @media (min-width: 768px) {
+            .hero-title { font-size: 4.5rem; }
+            .activity-card { flex-direction: row; }
+            .activity-image { width: 40%; background-color: #ddd; } /* 画像プレースホルダー */
+        }
+        @media (max-width: 767px) {
+            .profile-grid { grid-template-columns: 1fr; }
+            .hero { height: auto; padding: 100px 0 60px; }
+            .hero-title { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-inner">
+            <div class="logo">SHUJI AZUMADA</div>
+            <nav class="nav-links">
+                <a href="#about">About</a>
+                <a href="#research">Research</a>
+                <a href="#activities">Activities</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <p class="hero-subtitle">國立陽明交通大學 EECS 修士課程</p>
+            <h1 class="hero-title">Bridjing<br>Japan & Taiwan.</h1>
+            <p class="hero-desc">
+                半導体産業を通じて、日本と台湾の架け橋へ。<br>
+                文系からの転身、異文化での挑戦。技術と市場をつなぐエンジニアを目指して。
+            </p>
+            <a href="#contact" class="btn-primary">Contact Me</a>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <div class="profile-grid">
+                <div class="profile-img">
+                    <img src="photo.profile.jpg" alt="Shuji Azumada" style="width:100%; border-radius:10px; object-fit: cover;">
+                        Profile Image
+                    </div>
+                </div>
+                <div class="profile-text">
+                    <h2>About Me</h2>
+                    <p>横浜出身、2002年12月生まれ。2021年より単身台湾へ。<br>
+                    「半導体の本場で学びたい」という一心で、サイエンスパークのある新竹・國立陽明交通大學へ入学。学部時代は管理科学（Management Science）を専攻していましたが、産業の核となる技術そのものを理解する必要性を痛感し、修士課程より電気情報分野（EECS）へ転向しました。</p>
+                    
+                    <div style="margin-top: 30px;">
+                        <div class="history-item">
+                            <div class="history-year">2021.09 - 2025.06 (予定)</div>
+                            <div>國立陽明交通大學 管理学院 管理科学系 学士</div>
+                        </div>
+                        <div class="history-item">
+                            <div class="history-year">2025.09 - Present</div>
+                            <div>國立陽明交通大學 電機資訊学院 (EECS) 修士課程</div>
+                        </div>
+                    </div>
+
+                    <h3>Language</h3>
+                    <div class="skill-tags">
+                        <span>Japanese (Native)</span>
+                        <span>Chinese (Business Level)</span>
+                        <span>English (Daily Conversation)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="research" style="background-color: #fafafa;">
+        <div class="container">
+            <h2>Research</h2>
+            <div class="research-box">
+                <span class="research-kw">Research Theme</span>
+                <h3 style="font-size: 1.8rem; margin: 10px 0 20px;">中性粒子ビームを用いた次世代半導体デバイス加工の応用</h3>
+                <p>
+                    半導体の微細化が進む中、従来のプラズマエッチングではチャージアップダメージ（電荷による素子破壊）が課題となっています。
+                    私の研究では、電荷を持たない「中性粒子ビーム」を用いることで、原子レベルで無損傷かつ高精度な加工技術の確立を目指しています。
+                    次世代のナノテクノロジーデバイスの歩留まり向上に直結する、最先端のプロセス技術です。
+                </p>
+                <div style="margin-top: 20px;">
+                    <strong>Keywords:</strong>
+                    <span style="color:var(--primary);">Plasma Etching</span> / 
+                    <span style="color:var(--primary);">Nanotechnology</span> / 
+                    <span style="color:var(--primary);">Neutral Beam</span>
+                </div>
+                <div style="margin-top: 15px; font-size: 0.9rem; color: #666;">
+                    <strong>Equipment (Planned):</strong> RIE, ICP, XPS, SEM, TEM
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="activities">
+        <div class="container">
+            <h2>Activities & Extra-Curricular</h2>
+            
+            <div class="activity-card">
+                <div class="activity-content">
+                    <div class="activity-icon"><i class="fas fa-futbol"></i></div>
+                    <h3>Football Team</h3>
+                    <p>中学時代から現在まで継続中。大学院では研究と並行して大学のサッカー部に所属しています。</p>
+                    <p>言葉の壁がある中でのチームプレーは、非言語コミュニケーションと「背中で見せる」信頼関係の構築を教えてくれました。研究室での粘り強さも、ピッチで培った体力が基盤です。</p>
+                </div>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-content">
+                    <div class="activity-icon"><i class="fab fa-instagram"></i></div>
+                    <h3>SNS Influencer in Taiwan</h3>
+                    <p>台湾での生活を発信するInstagramアカウントを運用し、数千人のフォロワーを獲得。</p>
+                    
+                    <div class="story-box">
+                        <strong>My Strategy: 「共感のデータ化」</strong><br>
+                        当初は綺麗な風景写真ばかり投稿していましたが、反応は今ひとつ。そこで現地の学生の行動パターンを観察し、PDCAを回しました。<br><br>
+                        仮説として「台湾の学生は完璧な日本よりも、"日本人が台湾のカオスに戸惑う姿"を面白がるのでは？」と考え、コンテンツの方針を転換。<br>
+                        「タピオカの甘さ設定に失敗した日本人の絶望」などをユーモラスに発信したところ、保存数とシェア数が急増しました。
+                        ターゲットの感情に寄り添い、データを元に表現をチューニングする経験は、エンジニアとしての課題解決にも通じています。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="vision-section">
+        <div class="container">
+            <h2 class="vision-title" style="color: white;">Future Vision</h2>
+            <div class="vision-text">
+                <p style="font-weight: bold; font-size: 1.4rem; margin-bottom: 20px;">
+                    「技術が動く現場で、最大のインパクトを。」
+                </p>
+                <p>
+                    目指しているのは、半導体製造装置メーカーでのセールスエンジニア、あるいはフィールドエンジニアです。<br>
+                    最先端の装置は、納品して終わりではありません。顧客のニーズを汲み取り、現場で稼働させ、生産ラインという心臓を動かし続ける責任があります。
+                </p>
+                <p style="margin-top: 20px;">
+                    文系出身のコミュニケーション能力、理系大学院で培う専門知識、そして台湾で身につけたタフネス。<br>
+                    これらを総動員し、世界中の工場で技術革新を支える「現場のキーマン」になりたいと考えています。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" style="text-align: center;">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <p style="margin-bottom: 30px;">詳細な履歴書（CV）やポートフォリオが必要な場合はご連絡ください。</p>
+            
+            <div class="footer-links" style="margin-bottom: 50px;">
+                <a href="#" target="_blank" style="color: var(--primary);"><i class="fab fa-linkedin"></i> LinkedIn (Coming Soon)</a>
+                <a href="https://www.instagram.com/suuji_monkey.ver2.0/#" target="_blank" style="color: var(--primary);"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="mailto:your.email@example.com" style="color: var(--primary);"><i class="far fa-envelope"></i> Email</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Shuji Azumada. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
